@@ -30,7 +30,7 @@ type accessToken struct {
 	ClientID int64  `json:"client_id"`
 }
 
-func isPublic(request *http.Request) bool {
+func IsPublic(request *http.Request) bool {
 	if request == nil {
 		return true
 	}
@@ -88,6 +88,9 @@ func AuthenticateRequest(request *http.Request) *errors.RestErr {
 	at,err := getAccessToken(accessTokenId)
 	
 	if err != nil {
+		if err.Status == http.StatusNotFound{
+			return nil
+		}
 		return err
 	}
 
